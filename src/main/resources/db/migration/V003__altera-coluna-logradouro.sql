@@ -1,0 +1,1 @@
+alter table pessoa rename column logrdouro to logradouro;
