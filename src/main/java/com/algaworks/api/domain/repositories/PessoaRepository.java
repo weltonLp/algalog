@@ -7,5 +7,5 @@ import com.algaworks.api.domain.entities.Pessoa;
 
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
-
+	public Pessoa findByNome(String nome);
 }
