@@ -1,15 +1,21 @@
 package com.algaworks.api.domain.entities;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.persistence.Embedded;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.Valid;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.algaworks.api.domain.entities.enun.TipoLancamento;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,21 +23,39 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Pessoa {
+public class Lancamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@NotBlank
-	private String nome;
+	private String descricao;
 	
 	@NotNull
-	private Boolean ativo;
+	@Column(name="data_vencimento")
+	private LocalDateTime dataVencimento;
 	
 	@NotNull
-	@Valid
-	@Embedded
-	private Endereco endereco;
+	@Column(name="data_pagamento")
+	private LocalDateTime dataPagamento;
+	
+	@NotNull
+	private BigDecimal valor;
+	
+	@NotBlank
+	private String observacao;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoLancamento tipo;
+	
+	@NotNull
+	@ManyToOne
+	private Pessoa pessoa;
+	
+	@NotNull
+	@ManyToOne
+	private Categoria categoria;
 
 	@Override
 	public int hashCode() {
@@ -46,9 +70,10 @@ public class Pessoa {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		Lancamento other = (Lancamento) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 	
 	
 	

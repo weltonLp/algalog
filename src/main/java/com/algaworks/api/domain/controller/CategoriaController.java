@@ -31,6 +31,7 @@ public class CategoriaController {
 		return repository.findAll();
 	}
 	
+	
 	@GetMapping("/buscaPorNome/{nome}")
 	public ResponseEntity<Categoria> buscaPorNome(@PathVariable String nome){
 		
@@ -41,11 +42,19 @@ public class CategoriaController {
 		}else {
 			return ResponseEntity.notFound().build();
 		}
-		
 	
-		
 	}
 	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Categoria> buscar(@PathVariable Long id){
+		
+		
+		return repository.findById(id)
+				.map(categoria -> ResponseEntity.ok(categoria))
+				.orElse(ResponseEntity.notFound().build());
+		
+	}
 	
 	
 	
